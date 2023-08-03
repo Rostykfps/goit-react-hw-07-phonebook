@@ -1,7 +1,7 @@
-import { InputFilter, LabelFilter } from './Filter.styled';
-
 import { filterContacts } from 'components/redux/phoneBookSlice';
 import { useDispatch, useSelector } from 'react-redux';
+
+import { InputFilter, LabelFilter } from './Filter.styled';
 
 const Filter = () => {
   const filter = useSelector(state => state.phoneBook.filter);

@@ -1,9 +1,10 @@
 import ContactList from './ContactsList/ContactList';
 import ContactForm from './ContactForm/ContactForm';
 import Filter from './Filter/Filter';
-import { Container, TitleContacts, TitlePhonebook } from './App.styled';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+
+import { Container, TitleContacts, TitlePhonebook } from './App.styled';
 
 const App = () => {
   return (

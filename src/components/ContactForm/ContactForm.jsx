@@ -4,7 +4,7 @@ import 'react-toastify/dist/ReactToastify.css';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { nanoid } from '@reduxjs/toolkit';
-import { createContact } from 'components/redux/phoneBookSlice';
+import { addNewContact } from 'components/redux/contactsOperations';
 
 import { Button, Form, FormInput, FormLabel } from './ContactForm.styled';
 
@@ -13,7 +13,7 @@ const ContactForm = ({ onSubmit }) => {
   const [number, setNumber] = useState('');
 
   const dispatch = useDispatch();
-  const contacts = useSelector(state => state.phoneBook.contacts);
+  const contacts = useSelector(state => state.phoneBook.contacts.items);
 
   const handleSubmit = event => {
     event.preventDefault();
@@ -28,7 +28,7 @@ const ContactForm = ({ onSubmit }) => {
       return toast.info(`${name} is already in contacts.`);
     }
 
-    dispatch(createContact(newContact));
+    dispatch(addNewContact(newContact));
 
     setName('');
     setNumber('');

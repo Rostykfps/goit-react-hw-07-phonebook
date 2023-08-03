@@ -1,40 +1,59 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-import { persistReducer } from 'redux-persist';
-import storage from 'redux-persist/lib/storage';
+import {
+  addNewContact,
+  fetchContacts,
+  removeContact,
+} from './contactsOperations';
 
-const initialState = {
-  contacts: [],
-  filter: '',
+import { initialState } from './initialState';
+
+const handlePending = ({ contacts }) => {
+  contacts.isLoading = true;
+};
+
+const handleRejected = ({ contacts }, { payload }) => {
+  contacts.isLoading = false;
+  contacts.error = payload;
 };
 
 export const phoneBookSlice = createSlice({
   name: 'phoneBook',
   initialState,
   reducers: {
-    createContact: (state, action) => {
-      state.contacts.push(action.payload);
-    },
-    deleteContact: (state, action) => {
-      state.contacts = state.contacts.filter(
-        contact => contact.id !== action.payload
-      );
-    },
     filterContacts: (state, action) => {
       state.filter = action.payload;
     },
   },
+  extraReducers: builder => {
+    builder
+      .addCase(fetchContacts.pending, handlePending)
+      .addCase(fetchContacts.fulfilled, ({ contacts }, { payload }) => {
+        contacts.isLoading = false;
+        contacts.items = payload;
+        contacts.error = null;
+      })
+      .addCase(fetchContacts.rejected, handleRejected)
+      .addCase(addNewContact.pending, handlePending)
+      .addCase(addNewContact.fulfilled, ({ contacts }, { payload }) => {
+        contacts.isLoading = false;
+        contacts.items.push(payload);
+        contacts.error = null;
+      })
+      .addCase(addNewContact.rejected, handleRejected)
+      .addCase(removeContact.pending, handlePending)
+      .addCase(removeContact.fulfilled, ({ contacts }, { payload }) => {
+        contacts.isLoading = false;
+        const index = contacts.items.findIndex(
+          contact => contact.id === payload.id
+        );
+        contacts.items.splice(index, 1);
+        contacts.error = null;
+      })
+      .addCase(removeContact.rejected, handleRejected);
+  },
 });
 
-const persistConfig = {
-  key: 'phoneBook',
-  storage,
-};
+export const phoneBookReducer = phoneBookSlice.reducer;
 
-export const phoneBookReducer = persistReducer(
-  persistConfig,
-  phoneBookSlice.reducer
-);
-
-export const { createContact, deleteContact, filterContacts } =
-  phoneBookSlice.actions;
+export const { filterContacts } = phoneBookSlice.actions;

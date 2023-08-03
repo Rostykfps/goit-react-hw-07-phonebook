@@ -10,4 +10,6 @@ export const LabelFilter = styled.label`
 
 export const InputFilter = styled.input`
   width: 200px;
+  font-size: 16px;
+  border-radius: 3px;
 `;
