@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { BsPersonVcard } from 'react-icons/bs';
+import { TbPhone } from 'react-icons/tb';
 
 import {
   fetchContacts,
@@ -44,8 +45,9 @@ const ContactList = () => {
         <ContactsList>
           {contactsToRender.map(({ id, name, phone }) => (
             <ContactsItem key={id}>
-              <BsPersonVcard />
-              {name}: {phone}
+              <BsPersonVcard size="1.2em" />
+              {name}: <TbPhone size="1.2em" />
+              {phone}
               <DeleteBtn
                 type="button"
                 onClick={() => dispatch(removeContact(id))}
