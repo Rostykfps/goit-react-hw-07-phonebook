@@ -3,6 +3,7 @@ import styled from 'styled-components';
 export const IsLoading = styled.p`
   margin-top: 15px;
   margin-left: 30px;
+  text-align: center;
   font-size: 22px;
   font-weight: 600;
 `;
